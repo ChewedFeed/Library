@@ -1,0 +1,15 @@
+{
+  "name": "chewedfeed",
+  "version": "0.0.1",
+  "description": "ChewedFeed Libraries",
+  "main": "index.js",
+  "repository": "git@github.com:ChewedFeed/Library.git",
+  "author": "keloran <keloran@chewedfeed.com>",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.247.1",
+    "blindparser": "^1.0.3",
+    "bugfixes": "^1.7.0",
+    "uuid": "^3.2.1"
+  }
+}

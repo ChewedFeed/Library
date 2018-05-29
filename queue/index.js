@@ -9,11 +9,11 @@ class Queue {
     return this._feedId
   }
 
-  set itemUrl (url) {
-    this._itemUrl = url
+  set itemDetails (details) {
+    this._itemDetails = details
   }
-  get itemUrl () {
-    return this._itemUrl
+  get itemDetails () {
+    return this._itemDetails
   }
 
   set queueString (obj) {

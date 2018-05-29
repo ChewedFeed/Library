@@ -1,10 +1,10 @@
 const bugfixes = require('bugfixes')
-const request = require('request')
 const blind = require('blindparser')
 const moment = require('moment')
 
 const Store = require('../store')
 const Details = require('../details')
+const Queue = require('../queue')
 
 class Parse {
   set url (url) {
@@ -71,37 +71,27 @@ class Parse {
     let format = new Formatter()
     format.format(item)
 
-    store.feedId = this.feedId
-    store.url = format.url
-    store.title = format.title
-    store.imageDetails = {
-      url: format.image,
-      width: format.imageWidth,
-      height: format.imageHeight
+    let queue = new Queue()
+    queue.feedId = this.feedId
+    queue.itemDetails = {
+      url: format.url,
+      title: format.title,
+      imageDetails: {
+        url: format.image,
+        width: format.imageWidth,
+        height: format.imageHeight
+      }
     }
-
-    store.cacheCheck((error, result) => {
-      bugfixes.info('Cache Check', error, result)
-
+    queue.addItem((error, result) => {
       if (error) {
+        bugfixes.error('Queue Item', error)
+
         return callback(error)
       }
 
-      if (result.skip === false) {
-        bugfixes.info('result skipped', result, store)
-
-        store.insert((error, result) => {
-          bugfixes.info('store insert', error, result)
-
-          if (error) {
-            return callback(error)
-          }
-
-          return callback(null, {
-            success: true
-          })
-        })
-      }
+      return callback(null, {
+        success: true
+      })
     })
   }
 

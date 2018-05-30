@@ -40,10 +40,7 @@ class Queue {
   }
 
   addItem (callback) {
-    this.queueString = {
-      feedId: this.feedId,
-      itemUrl: this.itemUrl,
-    }
+    this.queueString = this.itemDetails
     this.queueTopic = process.env.AWS_SNS_TOPIC_ITEMS
 
     return this.addToQueue(callback)

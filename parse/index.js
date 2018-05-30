@@ -31,10 +31,11 @@ class Parse {
   parse (callback) {
     let feedItems = null
     let meta = null
+    let self = this
 
     blind.parseURL(this.url, (error, result) => {
       if (error) {
-        return callback('Parser Error', error)
+        return callback('Parser Error', error, self.url)
       }
 
       meta = result.metadata

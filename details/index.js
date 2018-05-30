@@ -38,7 +38,8 @@ class Details {
       apiVersion: process.env.AWS_DYNAMO_VERSION,
       endpoint: process.env.AWS_DYNAMO_ENDPOINT
     })
-    dynamo.scan({
+
+    let scan = {
       TableName: process.env.AWS_DYNAMO_TABLE_FEEDS,
       ExpressionAttributeNames: {
         '#url': 'url',
@@ -49,9 +50,11 @@ class Details {
       },
       FilterExpression: '#url = :url',
       ProjectionExpression: '#id'
-    }, (error, result) => {
+    }
+
+    dynamo.scan(scan, (error, result) => {
       if (error) {
-        bugfixes.info('Cache Check', error)
+        bugfixes.info('Details Cache Check', error, scan)
 
         return callback(error)
       }
@@ -81,16 +84,19 @@ class Details {
       apiVersion: process.env.AWS_DYNAMO_VERSION,
       endpoint: process.env.AWS_DYNAMO_ENDPOINT
     })
-    dynamo.put({
+
+    let put = {
       TableName: process.env.AWS_DYNAMO_TABLE_FEEDS,
       Item: {
         url: self.url,
         title: self.title,
         feedId: feedId
       }
-    }, (error, result) => {
+    }
+
+    dynamo.put(put, (error, result) => {
       if (error) {
-        bugfixes.error('Details Add', error)
+        bugfixes.error('Details Add', error, put)
 
         return callback(error)
       }
@@ -122,13 +128,18 @@ class Details {
       apiVersion: process.env.AWS_DYNAMO_VERSION,
       endpoint: process.env.AWS_DYNAMO_ENDPOINT
     })
-    dynamo.get({
+
+    let get = {
       TableName: process.env.AWS_DYNAMO_TABLE_FEEDS,
       Key: {
         feedId: self.feedId
       }
-    }, (error, result) => {
+    }
+
+    dynamo.get(get, (error, result) => {
       if (error) {
+        bugfixes.error('Get Feed', error, get)
+
         return callback(error)
       }
 
@@ -159,7 +170,8 @@ class Details {
       apiVersion: process.env.AWS_DYNAMO_VERSION,
       endpoint: process.env.AWS_DYNAMO_ENDPOINT
     })
-    dynamo.update({
+
+    let update = {
       TableName: process.env.AWS_DYNAMO_TABLE_FEEDS,
       Key: {
         feedId: self.feedId
@@ -174,8 +186,12 @@ class Details {
         ':lastUpdated': moment().unix(),
         ':feedId': self.feedId
       }
-    }, (error, result) => {
+    }
+
+    dynamo.update(update, (error, result) => {
       if (error) {
+        bugfixes.error('Details Update', error, update)
+
         return callback(error)
       }
 

@@ -46,13 +46,17 @@ class Store {
       apiVersion: process.env.AWS_DYNAMO_VERSION,
       endpoint: process.env.AWS_DYNAMO_ENDPOINT
     })
-    dynamo.get({
+
+    let get = {
       TableName: process.env.AWS_DYNAMO_TABLE_FEED_ITEMS,
       Key: {
         itemId: self.itemId
       }
-    }, (error, result) => {
+    }
+    dynamo.get(get, (error, result) => {
       if (error) {
+        bugfixes.error('Store Cache Check', error, get)
+
         return callback(error)
       }
 
@@ -78,7 +82,8 @@ class Store {
       apiVersion: process.env.AWS_DYNAMO_VERSION,
       endpoint: process.env.AWS_DYNAMO_ENDPOINT
     })
-    dynamo.put({
+
+    let put = {
       TableName: process.env.AWS_DYNAMO_TABLE_FEED_ITEMS,
       Item: {
         title: self.title,
@@ -87,9 +92,10 @@ class Store {
         itemId: self.itemId,
         imageDetails: self.imageDetails
       }
-    }, (error, result) => {
+    }
+    dynamo.put(put, (error, result) => {
       if (error) {
-        bugfixes.error('Items Add', error)
+        bugfixes.error('Store Insert', error, put)
 
         return callback(error)
       }

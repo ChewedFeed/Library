@@ -61,12 +61,13 @@ class Queue {
     }
     let objString = JSON.stringify(obj)
 
-    sns.publish({
+    let publish = {
       Message: objString,
       TopicArn: process.env.AWS_SNS_TOPIC_ITEMS
-    }, (error, result) => {
+    }
+    sns.publish(publish, (error, result) => {
       if (error) {
-        bugfixes.error('SQS Error', error)
+        bugfixes.error('SNS Error', error, publish)
 
         return callback(error)
       }

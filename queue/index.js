@@ -55,15 +55,9 @@ class Queue {
       apiVersion: process.env.AWS_SNS_VERSION
     })
 
-    let obj = {
-      feedId: this.feedId,
-      itemUrl: this.itemUrl,
-    }
-    let objString = JSON.stringify(obj)
-
     let publish = {
-      Message: objString,
-      TopicArn: process.env.AWS_SNS_TOPIC_ITEMS
+      Message: this.queueString,
+      TopicArn: this.queueTopic
     }
     sns.publish(publish, (error, result) => {
       if (error) {

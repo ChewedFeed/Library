@@ -154,13 +154,13 @@ class Details {
       let resultSet = {
         url: result.Item.url,
         format: result.Item.format,
-        skip: true,
+        skip: false,
         success: true
       }
 
       if (result.Item.lastUpdated) {
         if (result.Item.lastUpdated < moment.unix()) {
-          resultSet.skip = false
+          resultSet.skip = true
         }
       }
 

@@ -1,6 +1,7 @@
 const bugfixes = require('bugfixes')
 const uuid = require('uuid/v5')
 const AWS = require('aws-sdk')
+const moment = require('moment')
 
 class Store {
   set url (url) {
@@ -103,6 +104,29 @@ class Store {
       return callback(null, {
         success: true
       })
+    })
+  }
+
+  getFeeds (callback) {
+    let self = this
+
+    AWS.config.update({
+      region: process.env.AWS_DYNAMO_REGION
+    })
+    const dynamo = new AWS.DynamoDB.DocumentClient({
+      apiVersion: process.env.AWS_DYNAMO_VERSION,
+      endpoint: process.env.AWS_DYNAMO_ENDPOINT
+    })
+
+    let list = {
+      TableName: process.env.AWS_DYNAMO_TABLE_FEEDS
+    }
+    dynamo.scan(list, (error, result) => {
+      if (error) {
+        bugfixes.error('Get Feeds', error, list)
+      }
+
+      return callback(null, result.Items)
     })
   }
 }

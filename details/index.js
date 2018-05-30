@@ -1,6 +1,7 @@
 const bugfixes = require('bugfixes')
 const AWS = require('aws-sdk')
 const uuid = require('uuid/v5')
+const moment = require('moment')
 
 const Queue = require('../queue')
 
@@ -26,6 +27,13 @@ class Details {
   }
   get title () {
     return this._title
+  }
+
+  set lastUpdated (lastUpdated) {
+    this._lastUpdated = lastUpdated
+  }
+  get lastUpdated () {
+    return this._lastUpdated
   }
 
   checkInCache (callback) {

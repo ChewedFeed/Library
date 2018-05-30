@@ -35,7 +35,8 @@ class Parse {
 
     blind.parseURL(this.url, (error, result) => {
       if (error) {
-        return callback('Parser Error', error, self.url)
+        bugfixes.error('Parser Error', error, self)
+        return callback(error)
       }
 
       meta = result.metadata

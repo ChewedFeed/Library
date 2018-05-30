@@ -111,6 +111,79 @@ class Details {
       })
     })
   }
+
+  getFeed (callback) {
+    let self = this
+
+    AWS.config.update({
+      region: process.env.AWS_DYNAMO_REGION
+    })
+    const dynamo = new AWS.DynamoDB.DocumentClient({
+      apiVersion: process.env.AWS_DYNAMO_VERSION,
+      endpoint: process.env.AWS_DYNAMO_ENDPOINT
+    })
+    dynamo.get({
+      TableName: process.env.AWS_DYNAMO_TABLE_FEEDS,
+      Key: {
+        feedId: self.feedId
+      }
+    }, (error, result) => {
+      if (error) {
+        return callback(error)
+      }
+
+      let resultSet = {
+        url: result.Item.url,
+        format: result.Item.format,
+        skip: true,
+        success: true
+      }
+
+      if (result.Item.lastUpdated) {
+        if (result.Item.lastUpdated < moment.unix()) {
+          resultSet.skip = false
+        }
+      }
+
+      return callback(null, resultSet)
+    })
+  }
+
+  update (callback) {
+    let self = this
+
+    AWS.config.update({
+      region: process.env.AWS_DYNAMO_REGION
+    })
+    const dynamo = new AWS.DynamoDB.DocumentClient({
+      apiVersion: process.env.AWS_DYNAMO_VERSION,
+      endpoint: process.env.AWS_DYNAMO_ENDPOINT
+    })
+    dynamo.update({
+      TableName: process.env.AWS_DYNAMO_TABLE_FEEDS,
+      Key: {
+        feedId: self.feedId
+      },
+      ConditionExpression: '#feedId = :feedId',
+      UpdateExpression: 'SET #lastUpdated = :lastUpdated',
+      ExpressionAttributeNames: {
+        '#lastUpdated': 'lastUpdated',
+        '#feedId': 'feedId'
+      },
+      ExpressionAttributeValues: {
+        ':lastUpdated': moment().unix(),
+        ':feedId': self.feedId
+      }
+    }, (error, result) => {
+      if (error) {
+        return callback(error)
+      }
+
+      return callback(null, {
+        success: true
+      })
+    })
+  }
 }
 
 module.exports = Details

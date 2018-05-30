@@ -1,6 +1,6 @@
 {
   "name": "chewedfeed",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "ChewedFeed Libraries",
   "main": "index.js",
   "repository": "git@github.com:ChewedFeed/Library.git",

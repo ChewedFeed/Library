@@ -158,8 +158,13 @@ class Details {
         success: true
       }
 
+      let timecheck = 3600
+      if (bugfunctions.checkIfDefined(process.env.TIME_CHECK)) {
+        timecheck = process.env.TIME_CHECK
+      }
+
       if (result.Item.lastUpdated) {
-        if (result.Item.lastUpdated < moment().unix()) {
+        if (result.Item.lastUpdated < (moment().unix() - timecheck)) {
           resultSet.skip = true
         }
       }

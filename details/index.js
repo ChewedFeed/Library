@@ -159,7 +159,7 @@ class Details {
       }
 
       if (result.Item.lastUpdated) {
-        if (result.Item.lastUpdated < moment.unix()) {
+        if (result.Item.lastUpdated < moment().unix()) {
           resultSet.skip = true
         }
       }

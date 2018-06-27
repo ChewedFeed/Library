@@ -34,6 +34,9 @@ class Parse {
     let self = this
 
     blind.parseURL(this.url, (error, result) => {
+      bugfixes.info("ParseURL Result", result)
+      bugfixes.log("\n")
+
       if (error) {
         bugfixes.error('Parser Error', error, self)
         return callback(error)
@@ -72,6 +75,8 @@ class Parse {
 
     let format = new Formatter()
     format.format(item)
+
+    bugfixes.info('format', format)
 
     let queue = new Queue()
     queue.feedId = this.feedId

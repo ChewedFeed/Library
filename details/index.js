@@ -164,7 +164,16 @@ class Details {
       }
 
       if (result.Item.lastUpdated) {
-        if (result.Item.lastUpdated < (moment().unix() - timecheck)) {
+        resultSet.lastUpdated = result.Item.lastUpdated
+
+        let lessThanHour = (moment().unix() - timecheck)
+        resultSet.lessThanHour = lessThanHour
+        resultSet.now = moment().unix()
+
+        let skipCheck = (result.Item.lastUpdated > (moment().unix() - timecheck))
+        resultSet.skipCheck = skipCheck
+
+        if (skipCheck) {
           resultSet.skip = true
         }
       }

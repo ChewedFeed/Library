@@ -309,8 +309,8 @@ mime-types@^2.1.12, mime-types@~2.1.17:
     mime-db "~1.33.0"
 
 moment@^2.22.1:
-  version "2.22.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
+  version "2.29.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.0.tgz#fcbef955844d91deb55438613ddcec56e86a3425"
 
 ms@^2.1.1:
   version "2.1.1"

@@ -11,7 +11,7 @@
     "blindparser": "^1.0.3",
     "bugfixes": "^1.7.0",
     "moment": "^2.22.1",
-    "uuid": "^3.2.1"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "dotenv": "^5.0.1"
